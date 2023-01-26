@@ -11,4 +11,16 @@
 
     <artifactId>lab-2</artifactId>
 
+    <properties>
+        <twitterApiVersion>2.0.3</twitterApiVersion>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>twitter-api-java-sdk</artifactId>
+            <version>${twitterApiVersion}</version>
+        </dependency>
+    </dependencies>
+
 </project>
