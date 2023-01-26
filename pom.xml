@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>lab-1</module>
+        <module>lab-2</module>
     </modules>
 
     <properties>
