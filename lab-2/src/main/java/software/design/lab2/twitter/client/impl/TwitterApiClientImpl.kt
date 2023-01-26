@@ -31,7 +31,7 @@ class TwitterApiClientImpl(
                 logger.warn {
                     "Failed to get data from twitter api"
                 }
-                throw TwitterClientException("Got null data or error are not empty")
+                throw TwitterClientException("Got null data")
             }
             val hourToTweetsCount = data.mapIndexed { index, searchCount ->
                 index to searchCount.tweetCount
