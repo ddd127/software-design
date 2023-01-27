@@ -3,11 +3,10 @@ package software.design.lab2.twitter
 import com.twitter.clientlib.ApiException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import software.design.lab2.twitter.Common.defaultRequest
 import software.design.lab2.twitter.client.TwitterApiClient
 import software.design.lab2.twitter.client.TwitterClientException
 import software.design.lab2.twitter.client.diagram.FrequencyDiagram
-import software.design.lab2.twitter.client.diagram.Granularity
-import software.design.lab2.twitter.client.diagram.HashtagDiagramRequest
 import software.design.lab2.twitter.client.impl.TwitterApiClientImpl
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -74,18 +73,6 @@ class TwitterClientTest {
         assertEquals(
             "Got null data",
             expected.message,
-        )
-    }
-
-    companion object {
-        private const val hashtag = "#hashtag"
-        private const val hours = 12
-        private val granularity = Granularity.HOUR
-
-        private val defaultRequest = HashtagDiagramRequest(
-            hashtag,
-            hours,
-            granularity
         )
     }
 }

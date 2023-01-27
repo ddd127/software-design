@@ -8,7 +8,7 @@ import software.design.lab2.twitter.client.diagram.FrequencyDiagram
 import software.design.lab2.twitter.client.TwitterApiClient
 import software.design.lab2.twitter.client.TwitterClientException
 import software.design.lab2.twitter.client.diagram.HashtagDiagramRequest
-import java.time.OffsetDateTime
+import java.time.Instant
 
 class TwitterApiClientImpl(
     private val api: TwitterApi,
@@ -18,7 +18,7 @@ class TwitterApiClientImpl(
         request: HashtagDiagramRequest,
     ): FrequencyDiagram {
         validateParams(request)
-        val endTime = OffsetDateTime.now()
+        val endTime = request.endTime
         val startTime = endTime.minus(request.hours.toLong(), request.granularity.temporalUnit)
         try {
             val response = api.tweets().tweetCountsRecentSearch(request.hashtag)
@@ -50,6 +50,9 @@ class TwitterApiClientImpl(
     ) {
         assert(request.hours in 1..24) {
             "Unsupported duration provided: expecting integer in 1..24 but got ${request.hours}"
+        }
+        assert(request.endTime.toInstant() <= Instant.now()) {
+            "Time end must be in past, not the future"
         }
     }
 
