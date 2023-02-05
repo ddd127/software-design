@@ -12,7 +12,7 @@
     <artifactId>lab-3</artifactId>
 
     <properties>
-        <sqlite.version>3.8.11.2</sqlite.version>
+        <sqlite.version>3.36.0.3</sqlite.version>
         <jetty.version>9.4.48.v20220622</jetty.version>
     </properties>
 
