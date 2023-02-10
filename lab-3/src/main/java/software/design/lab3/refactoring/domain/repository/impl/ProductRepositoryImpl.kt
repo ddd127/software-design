@@ -24,7 +24,7 @@ class ProductRepositoryImpl(
             statement.executeUpdate(sql)
         }
 
-    override fun getOrderByPrice(limit: Int, direction: SortDirection): List<Product> =
+    override fun getOrderByPrice(limit: Long, direction: SortDirection): List<Product> =
         withStatement { statement ->
             statement.executeQuery(
                 "SELECT * FROM PRODUCT ORDER BY PRICE ${direction.sql} LIMIT $limit;",

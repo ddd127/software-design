@@ -7,7 +7,7 @@ interface ProductRepository {
 
     fun initTable()
 
-    fun getOrderByPrice(limit: Int, direction: SortDirection): List<Product>
+    fun getOrderByPrice(limit: Long, direction: SortDirection): List<Product>
     fun getAll(): List<Product>
 
     fun create(product: Product)

@@ -2,49 +2,42 @@ package software.design.lab3.refactoring.servlet
 
 import software.design.lab3.refactoring.domain.model.SortDirection
 import software.design.lab3.refactoring.domain.repository.ProductRepository
+import software.design.lab3.refactoring.html.ResponseWriter
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class QueryServlet(
+    private val responseWriter: ResponseWriter,
     private val productRepository: ProductRepository,
 ) : HttpServlet() {
 
     override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
-        response.writer.println("<html><body>")
         when (request.getParameter("command")) {
             "max" -> {
-                response.writer.println("<h1>Product with max price: </h1>")
-                productRepository.getOrderByPrice(1, SortDirection.DESC)
-                    .singleOrNull()
-                    ?.also {
-                        response.writer.println("${it.name}\t${it.price}</br>")
-                    }
+                responseWriter.writeMaxResponse(
+                    response,
+                    productRepository.getOrderByPrice(1, SortDirection.DESC).singleOrNull(),
+                )
             }
             "min" -> {
-                response.writer.println("<h1>Product with min price: </h1>")
-                productRepository.getOrderByPrice(1, SortDirection.ASC)
-                    .singleOrNull()
-                    ?.also {
-                        response.writer.println("${it.name}\t${it.price}</br>")
-                    }
+                responseWriter.writeMinResponse(
+                    response,
+                    productRepository.getOrderByPrice(1, SortDirection.ASC).singleOrNull(),
+                )
             }
             "sum" -> {
-                response.writer.println("Summary price: ")
-                productRepository.priceSum()?.also { sum ->
-                    response.writer.println(sum)
-                }
+                responseWriter.writeSumResponse(
+                    response,
+                    productRepository.priceSum(),
+                )
             }
             "count" -> {
-                response.writer.println("Number of products: ")
-                productRepository.count()?.also { count ->
-                    response.writer.println(count)
-                }
+                responseWriter.writeCountResponse(
+                    response,
+                    productRepository.count(),
+                )
             }
         }
-        response.writer.println("</body></html>")
-
-        response.contentType = "text/html"
-        response.status = HttpServletResponse.SC_OK
     }
 }

@@ -6,33 +6,43 @@ import org.eclipse.jetty.servlet.ServletHolder
 import software.design.lab3.refactoring.domain.DatasourceConfiguration
 import software.design.lab3.refactoring.domain.repository.ProductRepository
 import software.design.lab3.refactoring.domain.repository.impl.ProductRepositoryImpl
+import software.design.lab3.refactoring.html.ResponseWriter
+import software.design.lab3.refactoring.html.impl.ResponseWriterImpl
 import software.design.lab3.refactoring.servlet.AddProductServlet
 import software.design.lab3.refactoring.servlet.GetProductsServlet
 import software.design.lab3.refactoring.servlet.QueryServlet
-import java.sql.DriverManager
 
 fun main() {
-    DriverManager.getConnection("jdbc:sqlite:test.db").use { c ->
-        val sql = """
-            CREATE TABLE IF NOT EXISTS PRODUCT
-            (
-                ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                NAME                   TEXT          NOT NULL,
-                PRICE                  INT           NOT NULL
-            );
-        """.trimIndent()
-        val stmt = c.createStatement()
-        stmt.executeUpdate(sql)
-        stmt.close()
-    }
+    val writer: ResponseWriter = ResponseWriterImpl
+    val repository: ProductRepository = ProductRepositoryImpl(DatasourceConfiguration)
+
+    repository.initTable()
+
     val server = Server(8081)
     val context = ServletContextHandler(ServletContextHandler.SESSIONS)
     context.contextPath = "/"
     server.handler = context
-    val repository: ProductRepository = ProductRepositoryImpl(DatasourceConfiguration)
-    context.addServlet(ServletHolder(AddProductServlet(repository)), "/add-product")
-    context.addServlet(ServletHolder(GetProductsServlet(repository)), "/get-products")
-    context.addServlet(ServletHolder(QueryServlet(repository)), "/query")
+
+    context.createServlets(writer, repository)
+
     server.start()
     server.join()
+}
+
+private fun ServletContextHandler.createServlets(
+    writer: ResponseWriter,
+    repository: ProductRepository,
+) {
+    addServlet(
+        ServletHolder(AddProductServlet(writer, repository)),
+        "/add-product",
+    )
+    addServlet(
+        ServletHolder(GetProductsServlet(writer, repository)),
+        "/get-products",
+    )
+    addServlet(
+        ServletHolder(QueryServlet(writer, repository)),
+        "/query",
+    )
 }

@@ -10,6 +10,8 @@ import software.design.lab3.refactoring.AbstractTest.Companion.Response.Companio
 import software.design.lab3.refactoring.domain.ConnectionFactory
 import software.design.lab3.refactoring.domain.repository.ProductRepository
 import software.design.lab3.refactoring.domain.repository.impl.ProductRepositoryImpl
+import software.design.lab3.refactoring.html.ResponseWriter
+import software.design.lab3.refactoring.html.impl.ResponseWriterImpl
 import software.design.lab3.refactoring.servlet.AddProductServlet
 import software.design.lab3.refactoring.servlet.GetProductsServlet
 import software.design.lab3.refactoring.servlet.QueryServlet
@@ -59,6 +61,8 @@ abstract class AbstractTest {
 
         private val repository: ProductRepository =
             ProductRepositoryImpl(factory)
+        private val writer: ResponseWriter =
+            ResponseWriterImpl
 
         private lateinit var server: Server
 
@@ -101,9 +105,9 @@ abstract class AbstractTest {
             val context = ServletContextHandler(ServletContextHandler.SESSIONS)
             context.contextPath = "/"
             server.handler = context
-            context.addServlet(ServletHolder(AddProductServlet(repository)), "/add-product")
-            context.addServlet(ServletHolder(GetProductsServlet(repository)), "/get-products")
-            context.addServlet(ServletHolder(QueryServlet(repository)), "/query")
+            context.addServlet(ServletHolder(AddProductServlet(writer, repository)), "/add-product")
+            context.addServlet(ServletHolder(GetProductsServlet(writer, repository)), "/get-products")
+            context.addServlet(ServletHolder(QueryServlet(writer, repository)), "/query")
             server.start()
         }
 
