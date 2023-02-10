@@ -1,4 +1,4 @@
-package software.design.lab3.refactoring.servlet
+package software.design.lab3.refactoring.servlet.instance
 
 import software.design.lab3.refactoring.domain.model.Product
 import software.design.lab3.refactoring.domain.repository.ProductRepository

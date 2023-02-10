@@ -12,9 +12,9 @@ import software.design.lab3.refactoring.domain.repository.ProductRepository
 import software.design.lab3.refactoring.domain.repository.impl.ProductRepositoryImpl
 import software.design.lab3.refactoring.html.ResponseWriter
 import software.design.lab3.refactoring.html.impl.ResponseWriterImpl
-import software.design.lab3.refactoring.servlet.AddProductServlet
-import software.design.lab3.refactoring.servlet.GetProductsServlet
-import software.design.lab3.refactoring.servlet.QueryServlet
+import software.design.lab3.refactoring.servlet.instance.AddProductServlet
+import software.design.lab3.refactoring.servlet.instance.GetProductsServlet
+import software.design.lab3.refactoring.servlet.instance.QueryServlet
 import java.net.HttpURLConnection
 import java.net.URLEncoder
 import java.sql.DriverManager
