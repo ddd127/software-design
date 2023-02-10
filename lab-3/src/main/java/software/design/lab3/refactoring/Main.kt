@@ -3,6 +3,9 @@ package software.design.lab3.refactoring
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletHolder
+import software.design.lab3.refactoring.domain.DatasourceConfiguration
+import software.design.lab3.refactoring.domain.repository.ProductRepository
+import software.design.lab3.refactoring.domain.repository.impl.ProductRepositoryImpl
 import software.design.lab3.refactoring.servlet.AddProductServlet
 import software.design.lab3.refactoring.servlet.GetProductsServlet
 import software.design.lab3.refactoring.servlet.QueryServlet
@@ -26,9 +29,10 @@ fun main() {
     val context = ServletContextHandler(ServletContextHandler.SESSIONS)
     context.contextPath = "/"
     server.handler = context
-    context.addServlet(ServletHolder(AddProductServlet()), "/add-product")
-    context.addServlet(ServletHolder(GetProductsServlet()), "/get-products")
-    context.addServlet(ServletHolder(QueryServlet()), "/query")
+    val repository: ProductRepository = ProductRepositoryImpl(DatasourceConfiguration)
+    context.addServlet(ServletHolder(AddProductServlet(repository)), "/add-product")
+    context.addServlet(ServletHolder(GetProductsServlet(repository)), "/get-products")
+    context.addServlet(ServletHolder(QueryServlet(repository)), "/query")
     server.start()
     server.join()
 }

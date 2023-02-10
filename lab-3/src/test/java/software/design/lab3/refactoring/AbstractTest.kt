@@ -7,6 +7,9 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import software.design.lab3.refactoring.AbstractTest.Companion.Response.Companion.CONTENT_AFFIX
+import software.design.lab3.refactoring.domain.ConnectionFactory
+import software.design.lab3.refactoring.domain.repository.ProductRepository
+import software.design.lab3.refactoring.domain.repository.impl.ProductRepositoryImpl
 import software.design.lab3.refactoring.servlet.AddProductServlet
 import software.design.lab3.refactoring.servlet.GetProductsServlet
 import software.design.lab3.refactoring.servlet.QueryServlet
@@ -50,6 +53,13 @@ abstract class AbstractTest {
 
         const val DATASOURCE_URL = "jdbc:sqlite:test.db"
 
+        private val factory = ConnectionFactory {
+            DriverManager.getConnection(DATASOURCE_URL)
+        }
+
+        private val repository: ProductRepository =
+            ProductRepositoryImpl(factory)
+
         private lateinit var server: Server
 
         fun request(
@@ -91,9 +101,9 @@ abstract class AbstractTest {
             val context = ServletContextHandler(ServletContextHandler.SESSIONS)
             context.contextPath = "/"
             server.handler = context
-            context.addServlet(ServletHolder(AddProductServlet()), "/add-product")
-            context.addServlet(ServletHolder(GetProductsServlet()), "/get-products")
-            context.addServlet(ServletHolder(QueryServlet()), "/query")
+            context.addServlet(ServletHolder(AddProductServlet(repository)), "/add-product")
+            context.addServlet(ServletHolder(GetProductsServlet(repository)), "/get-products")
+            context.addServlet(ServletHolder(QueryServlet(repository)), "/query")
             server.start()
         }
 
