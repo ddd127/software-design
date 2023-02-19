@@ -4,8 +4,8 @@
 package software.design.lab4.todo.list.domain.db;
 
 
-import software.design.lab4.todo.list.domain.db.tables.Lists;
-import software.design.lab4.todo.list.domain.db.tables.TodoTask;
+import software.design.lab4.todo.list.domain.db.tables.Tasks;
+import software.design.lab4.todo.list.domain.db.tables.TodoLists;
 import software.design.lab4.todo.list.domain.db.tables.Users;
 
 
@@ -16,14 +16,14 @@ import software.design.lab4.todo.list.domain.db.tables.Users;
 public class Tables {
 
     /**
-     * The table <code>public.lists</code>.
+     * The table <code>public.tasks</code>.
      */
-    public static final Lists LISTS = Lists.LISTS;
+    public static final Tasks TASKS = Tasks.TASKS;
 
     /**
-     * The table <code>public.todo_task</code>.
+     * The table <code>public.todo_lists</code>.
      */
-    public static final TodoTask TODO_TASK = TodoTask.TODO_TASK;
+    public static final TodoLists TODO_LISTS = TodoLists.TODO_LISTS;
 
     /**
      * The table <code>public.users</code>.

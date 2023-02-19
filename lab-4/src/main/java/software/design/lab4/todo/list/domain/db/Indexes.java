@@ -9,8 +9,8 @@ import org.jooq.OrderField;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
-import software.design.lab4.todo.list.domain.db.tables.Lists;
-import software.design.lab4.todo.list.domain.db.tables.TodoTask;
+import software.design.lab4.todo.list.domain.db.tables.Tasks;
+import software.design.lab4.todo.list.domain.db.tables.TodoLists;
 
 
 /**
@@ -23,6 +23,6 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX__LISTS__USER_ID = Internal.createIndex(DSL.name("idx__lists__user_id"), Lists.LISTS, new OrderField[] { Lists.LISTS.USER_ID }, false);
-    public static final Index IDX__TODO_TASKS__LIST_ID = Internal.createIndex(DSL.name("idx__todo_tasks__list_id"), TodoTask.TODO_TASK, new OrderField[] { TodoTask.TODO_TASK.LIST_ID }, false);
+    public static final Index IDX__TASKS__LIST_ID = Internal.createIndex(DSL.name("idx__tasks__list_id"), Tasks.TASKS, new OrderField[] { Tasks.TASKS.LIST_ID }, false);
+    public static final Index IDX__TODO_LISTS__USER_ID = Internal.createIndex(DSL.name("idx__todo_lists__user_id"), TodoLists.TODO_LISTS, new OrderField[] { TodoLists.TODO_LISTS.USER_ID }, false);
 }

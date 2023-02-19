@@ -11,8 +11,8 @@ import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
-import software.design.lab4.todo.list.domain.db.tables.Lists;
-import software.design.lab4.todo.list.domain.db.tables.TodoTask;
+import software.design.lab4.todo.list.domain.db.tables.Tasks;
+import software.design.lab4.todo.list.domain.db.tables.TodoLists;
 import software.design.lab4.todo.list.domain.db.tables.Users;
 
 
@@ -30,14 +30,14 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
-     * The table <code>public.lists</code>.
+     * The table <code>public.tasks</code>.
      */
-    public final Lists LISTS = Lists.LISTS;
+    public final Tasks TASKS = Tasks.TASKS;
 
     /**
-     * The table <code>public.todo_task</code>.
+     * The table <code>public.todo_lists</code>.
      */
-    public final TodoTask TODO_TASK = TodoTask.TODO_TASK;
+    public final TodoLists TODO_LISTS = TodoLists.TODO_LISTS;
 
     /**
      * The table <code>public.users</code>.
@@ -60,8 +60,8 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Lists.LISTS,
-            TodoTask.TODO_TASK,
+            Tasks.TASKS,
+            TodoLists.TODO_LISTS,
             Users.USERS
         );
     }

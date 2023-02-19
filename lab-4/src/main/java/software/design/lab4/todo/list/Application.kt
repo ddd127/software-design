@@ -1,11 +1,11 @@
 package software.design.lab4.todo.list
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class Application
 
 fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+    SpringApplication(Application::class.java).run(*args)
 }

@@ -10,11 +10,11 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
-import software.design.lab4.todo.list.domain.db.tables.Lists;
-import software.design.lab4.todo.list.domain.db.tables.TodoTask;
+import software.design.lab4.todo.list.domain.db.tables.Tasks;
+import software.design.lab4.todo.list.domain.db.tables.TodoLists;
 import software.design.lab4.todo.list.domain.db.tables.Users;
-import software.design.lab4.todo.list.domain.db.tables.records.ListsRecord;
-import software.design.lab4.todo.list.domain.db.tables.records.TodoTaskRecord;
+import software.design.lab4.todo.list.domain.db.tables.records.TasksRecord;
+import software.design.lab4.todo.list.domain.db.tables.records.TodoListsRecord;
 import software.design.lab4.todo.list.domain.db.tables.records.UsersRecord;
 
 
@@ -29,8 +29,8 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<ListsRecord> PK__LISTS = Internal.createUniqueKey(Lists.LISTS, DSL.name("pk__lists"), new TableField[] { Lists.LISTS.ID }, true);
-    public static final UniqueKey<TodoTaskRecord> PK__TODO_TASK = Internal.createUniqueKey(TodoTask.TODO_TASK, DSL.name("pk__todo_task"), new TableField[] { TodoTask.TODO_TASK.ID }, true);
+    public static final UniqueKey<TasksRecord> PK__TASKS = Internal.createUniqueKey(Tasks.TASKS, DSL.name("pk__tasks"), new TableField[] { Tasks.TASKS.ID }, true);
+    public static final UniqueKey<TodoListsRecord> PK__TODO_LISTS = Internal.createUniqueKey(TodoLists.TODO_LISTS, DSL.name("pk__todo_lists"), new TableField[] { TodoLists.TODO_LISTS.ID }, true);
     public static final UniqueKey<UsersRecord> PK__USERS = Internal.createUniqueKey(Users.USERS, DSL.name("pk__users"), new TableField[] { Users.USERS.ID }, true);
     public static final UniqueKey<UsersRecord> UDX__USERS__LOGIN = Internal.createUniqueKey(Users.USERS, DSL.name("udx__users__login"), new TableField[] { Users.USERS.USER_LOGIN }, true);
 
@@ -38,6 +38,6 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<ListsRecord, UsersRecord> LISTS__FK__LISTS__USER_ID = Internal.createForeignKey(Lists.LISTS, DSL.name("fk__lists__user_id"), new TableField[] { Lists.LISTS.USER_ID }, Keys.PK__USERS, new TableField[] { Users.USERS.ID }, true);
-    public static final ForeignKey<TodoTaskRecord, ListsRecord> TODO_TASK__FK__TODO_TASK__LIST_ID = Internal.createForeignKey(TodoTask.TODO_TASK, DSL.name("fk__todo_task__list_id"), new TableField[] { TodoTask.TODO_TASK.LIST_ID }, Keys.PK__LISTS, new TableField[] { Lists.LISTS.ID }, true);
+    public static final ForeignKey<TasksRecord, TodoListsRecord> TASKS__FK__TASKS__LIST_ID = Internal.createForeignKey(Tasks.TASKS, DSL.name("fk__tasks__list_id"), new TableField[] { Tasks.TASKS.LIST_ID }, Keys.PK__TODO_LISTS, new TableField[] { TodoLists.TODO_LISTS.ID }, true);
+    public static final ForeignKey<TodoListsRecord, UsersRecord> TODO_LISTS__FK__TODO_LISTS__USER_ID = Internal.createForeignKey(TodoLists.TODO_LISTS, DSL.name("fk__todo_lists__user_id"), new TableField[] { TodoLists.TODO_LISTS.USER_ID }, Keys.PK__USERS, new TableField[] { Users.USERS.ID }, true);
 }
