@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<h4 th:text="${'Lists for ' + login + ':'}"></h4>
+<ul>
+    <li th:each="todoList: ${taskList}">
+        <a th:href="@{/tasks(todoListId=${todoList.id.value})}" th:text="${todoList.title}"></a>
+        <form th:action="@{/lists/delete(todoListId=${todoList.id.value})}" method="POST" style="display: inline">
+            <label>
+                <input type="submit" value="Delete">
+            </label>
+        </form>
+    </li>
+</ul>
+<form th:action="@{/lists/create}" th:object="${listCreateRq}" method="POST">
+    <p>Title: <label><input type="text" th:field="*{title}"/></label></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+<a th:href="@{/lists}">Back to lists</a>
+
+<h4 th:text="${'Tasks list ' + list.title + ':'}"></h4>
+<ul>
+    <li th:each="task: ${tasks}" th:style="'margin-top: 20px; color: ' + ${task.status.name.equals('ACTIVE') ? 'black' : 'gray'}">
+        <span th:text="${task.title}"></span>
+        <br>
+        <form th:action="@{/tasks/patch(todoListId=${list.id.value},taskId=${task.id.value})}" method="POST" style="display: inline">
+            <label>
+                <input type="submit" th:value="${task.status.name.equals('ACTIVE') ? 'Finish' : 'Undo'}">
+            </label>
+        </form>
+        <form th:action="@{/tasks/delete(todoListId=${list.id.value},taskId=${task.id.value})}" method="POST" style="display: inline">
+            <label>
+                <input type="submit" value="Delete">
+            </label>
+        </form>
+        <br>
+        <span th:text="${task.description}"></span>
+    </li>
+</ul>
+
+<form th:action="@{/tasks/create(todoListId=${list.id.value})}" th:object="${taskCreateRq}" method="POST">
+    <span>Create new task:</span>
+    <span>Title: <label><input type="text" th:field="*{title}"/></label></span>
+    <br>
+    <span>Description: <label><input type="text" th:field="*{description}"/></label></span>
+    <br>
+    <input type="submit" value="Create"/> <input type="reset" value="Reset"/>
+</form>
+</body>
+</html>
