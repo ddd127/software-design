@@ -16,6 +16,7 @@ import software.design.lab4.todo.list.domain.model.user.User
 import software.design.lab4.todo.list.domain.repository.TodoListRepository
 import software.design.lab4.todo.list.domain.repository.UserRepository
 import software.design.lab4.todo.list.web.dto.ListCreateRqDto
+import software.design.lab7.profiler.api.Profiled
 
 @Controller
 class ListsPageController @Autowired constructor(
@@ -25,6 +26,7 @@ class ListsPageController @Autowired constructor(
     private val defaultLogin: String,
 ) {
 
+    @Profiled
     @GetMapping("/lists")
     fun getListsPage(
         @RequestParam("login") loginParam: String?,
@@ -38,6 +40,7 @@ class ListsPageController @Autowired constructor(
         return "lists"
     }
 
+    @Profiled
     @PostMapping("/lists/create")
     fun createList(
         @RequestParam("loginParam", required = false, defaultValue = "ddd127") loginParam: String?,
@@ -49,6 +52,7 @@ class ListsPageController @Autowired constructor(
         return getListsPage(loginParam, model)
     }
 
+    @Profiled
     @PostMapping("/lists/delete")
     fun deleteList(
         @RequestParam("loginParam", required = false, defaultValue = "ddd127") loginParam: String?,

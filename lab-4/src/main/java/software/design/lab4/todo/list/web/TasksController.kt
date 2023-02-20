@@ -15,6 +15,7 @@ import software.design.lab4.todo.list.domain.model.task.TaskStatus
 import software.design.lab4.todo.list.domain.repository.TaskRepository
 import software.design.lab4.todo.list.domain.repository.TodoListRepository
 import software.design.lab4.todo.list.web.dto.TaskCreateRqDto
+import software.design.lab7.profiler.api.Profiled
 
 @Controller
 class TasksController @Autowired constructor(
@@ -22,6 +23,7 @@ class TasksController @Autowired constructor(
     private val tasksRepository: TaskRepository,
 ) {
 
+    @Profiled
     @GetMapping("/tasks")
     fun getTasks(
         @RequestParam("todoListId") listIdParam: Long,
@@ -37,6 +39,7 @@ class TasksController @Autowired constructor(
         return "tasks"
     }
 
+    @Profiled
     @PostMapping("/tasks/create")
     fun createTask(
         @RequestParam("todoListId") listIdParam: Long,
@@ -54,6 +57,7 @@ class TasksController @Autowired constructor(
         return getTasks(listIdParam, model)
     }
 
+    @Profiled
     @PostMapping("/tasks/patch")
     fun patchTask(
         @RequestParam("todoListId") listIdParam: Long,
@@ -70,6 +74,7 @@ class TasksController @Autowired constructor(
         return getTasks(listIdParam, model)
     }
 
+    @Profiled
     @PostMapping("/tasks/delete")
     fun deleteTask(
         @RequestParam("todoListId") listIdParam: Long,
