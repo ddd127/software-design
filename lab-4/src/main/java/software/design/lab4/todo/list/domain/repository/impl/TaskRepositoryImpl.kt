@@ -12,8 +12,8 @@ import software.design.lab4.todo.list.domain.model.task.Task
 import software.design.lab4.todo.list.domain.model.task.TaskId
 import software.design.lab4.todo.list.domain.model.task.TaskStatus
 import software.design.lab4.todo.list.domain.repository.TaskRepository
-import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Repository
 class TaskRepositoryImpl @Autowired constructor(
@@ -32,6 +32,11 @@ class TaskRepositoryImpl @Autowired constructor(
             .returning()
             .fetchSingle(::toModel)
 
+    override fun getTask(id: TaskId): Task =
+        dslContext.selectFrom(TASKS)
+            .where(TASKS.ID.equal(id.value))
+            .fetchSingle(::toModel)
+
     override fun getTasks(id: TodoListId): Set<Task> =
         dslContext.selectFrom(TASKS)
             .where(TASKS.LIST_ID.equal(id.value))
@@ -41,14 +46,15 @@ class TaskRepositoryImpl @Autowired constructor(
         dslContext.update(TASKS)
             .set(toRecord(rq))
             .set(TASKS.UPDATED_TS, DSL.now().cast(LocalDateTime::class.java))
+            .where(TASKS.ID.equal(rq.id.value))
             .returning()
             .fetchSingle(::toModel)
 
-    override fun deleteTask(id: TaskId) {
+    override fun deleteTask(id: TaskId): Task =
         dslContext.deleteFrom(TASKS)
             .where(TASKS.ID.equal(id.value))
-            .execute()
-    }
+            .returning()
+            .fetchSingle(::toModel)
 
     companion object {
 
@@ -59,8 +65,8 @@ class TaskRepositoryImpl @Autowired constructor(
                 toRecord(model.status),
                 model.title,
                 model.description,
-                LocalDateTime.from(model.createdTs),
-                LocalDateTime.from(model.updatedTs),
+                LocalDateTime.ofInstant(model.createdTs, ZoneOffset.UTC),
+                LocalDateTime.ofInstant(model.updatedTs, ZoneOffset.UTC),
             )
 
         private fun toRecord(model: TaskStatus): TaskStatusEnum =
@@ -76,8 +82,8 @@ class TaskRepositoryImpl @Autowired constructor(
                 toModel(record.status),
                 record.title,
                 record.description,
-                Instant.from(record.createdTs),
-                Instant.from(record.updatedTs),
+                record.createdTs.toInstant(ZoneOffset.UTC),
+                record.updatedTs.toInstant(ZoneOffset.UTC),
             )
 
         private fun toModel(record: TaskStatusEnum): TaskStatus =

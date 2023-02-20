@@ -6,7 +6,8 @@ import software.design.lab4.todo.list.domain.model.task.TaskId
 
 interface TaskRepository {
     fun createTask(rq: Task): Task
+    fun getTask(id: TaskId): Task
     fun getTasks(id: TodoListId): Set<Task>
     fun updateTask(rq: Task): Task
-    fun deleteTask(id: TaskId)
+    fun deleteTask(id: TaskId): Task
 }

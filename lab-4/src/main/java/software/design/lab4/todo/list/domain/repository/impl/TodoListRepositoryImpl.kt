@@ -9,8 +9,8 @@ import software.design.lab4.todo.list.domain.model.list.TodoList
 import software.design.lab4.todo.list.domain.model.list.TodoListId
 import software.design.lab4.todo.list.domain.model.user.UserId
 import software.design.lab4.todo.list.domain.repository.TodoListRepository
-import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Repository
 class TodoListRepositoryImpl @Autowired constructor(
@@ -27,6 +27,11 @@ class TodoListRepositoryImpl @Autowired constructor(
                 },
             )
             .returning()
+            .fetchSingle(::toModel)
+
+    override fun getTodoList(todoListId: TodoListId): TodoList =
+        dslContext.selectFrom(TODO_LISTS)
+            .where(TODO_LISTS.ID.equal(todoListId.value))
             .fetchSingle(::toModel)
 
     override fun getTodoListsByUser(userId: UserId): Set<TodoList> =
@@ -47,8 +52,8 @@ class TodoListRepositoryImpl @Autowired constructor(
                 model.id.value,
                 model.userId.value,
                 model.title,
-                LocalDateTime.from(model.createdTs),
-                LocalDateTime.from(model.updatedTs),
+                LocalDateTime.ofInstant(model.createdTs, ZoneOffset.UTC),
+                LocalDateTime.ofInstant(model.updatedTs, ZoneOffset.UTC),
             )
 
         private fun toModel(record: TodoListsRecord) =
@@ -56,8 +61,8 @@ class TodoListRepositoryImpl @Autowired constructor(
                 TodoListId(record.id),
                 UserId(record.userId),
                 record.title,
-                Instant.from(record.createdTs),
-                Instant.from(record.updatedTs),
+                record.createdTs.toInstant(ZoneOffset.UTC),
+                record.updatedTs.toInstant(ZoneOffset.UTC),
             )
     }
 }

@@ -40,7 +40,7 @@ create table tasks
     updated_ts  timestamp        not null default now(),
 
     constraint pk__tasks primary key (id),
-    constraint fk__tasks__list_id foreign key (list_id) references todo_lists
+    constraint fk__tasks__list_id foreign key (list_id) references todo_lists on delete cascade
 );
 
 create index idx__tasks__list_id on tasks using btree (list_id);
