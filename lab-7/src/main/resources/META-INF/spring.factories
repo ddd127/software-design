@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  software.design.lab7.profiler.ProfilerAutoConfiguration
