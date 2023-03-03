@@ -1,3 +1,7 @@
 package software.design.lab6.visitor.pattern.tokenizer.token
 
-sealed interface Token
+import software.design.lab6.visitor.pattern.visitor.Visitor
+
+sealed interface Token {
+    fun accept(visitor: Visitor<*>)
+}
