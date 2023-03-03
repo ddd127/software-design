@@ -14,7 +14,7 @@ import kotlin.test.assertFailsWith
 class DefaultTokenizerTest {
 
     @Test
-    fun `test empty input`() {
+    fun empty() {
         assertEquals(
             emptyList(),
             DefaultTokenizer.tokenize(""),
@@ -22,29 +22,31 @@ class DefaultTokenizerTest {
     }
 
     @Test
-    fun `test all tokens`() {
+    fun all() {
         assertEquals(
             listOf(
                 Add,
-                Num(123),
+                OpenBrace,
+                Num(12),
+                Num(3),
                 Num(45),
                 Add,
                 Sub,
+                Num(0),
                 Mul,
                 Div,
-                OpenBrace,
                 CloseBrace,
             ),
             DefaultTokenizer.tokenize(
-                "+\t123 45+               -*/(                )          ",
+                "+\t(      12    3 \n\r45+   \r            -0*/\n           )          ",
             )
         )
     }
 
     @Test
-    fun `test unsupported symbol`() {
+    fun unexpected() {
         val exception = assertFailsWith<IllegalArgumentException> {
-            DefaultTokenizer.tokenize(Source("1 + 3,".byteInputStream(Charsets.UTF_8)))
+            DefaultTokenizer.tokenize("1 + 3,")
         }
         assertEquals("Expected '(' or digit, but got `,`", exception.message)
     }
