@@ -11,4 +11,15 @@
 
     <artifactId>lab-8</artifactId>
 
+    <properties>
+        <kotlinx.datetime.version>0.4.0</kotlinx.datetime.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-datetime-jvm</artifactId>
+            <version>${kotlinx.datetime.version}</version>
+        </dependency>
+    </dependencies>
 </project>
