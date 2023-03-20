@@ -17,6 +17,7 @@
         <module>lab-6</module>
         <module>lab-8</module>
         <module>lab-9</module>
+        <module>lab-10</module>
     </modules>
 
     <properties>
@@ -31,6 +32,8 @@
 
         <kotlin-logging.version>3.0.4</kotlin-logging.version>
         <logback.version>1.4.5</logback.version>
+
+        <kotlinx.serialization.version>1.5.0</kotlinx.serialization.version>
 
         <surefire.version>2.22.2</surefire.version>
 
@@ -88,6 +91,12 @@
             <artifactId>mockito-kotlin</artifactId>
             <version>${mockito-kotlin.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -124,11 +133,17 @@
                         <artifactId>kotlin-maven-allopen</artifactId>
                         <version>${kotlin.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-serialization</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <jvmTarget>${java.version}</jvmTarget>
                     <compilerPlugins>
                         <plugin>spring</plugin>
+                        <plugin>kotlinx-serialization</plugin>
                     </compilerPlugins>
                 </configuration>
             </plugin>
