@@ -18,6 +18,8 @@
         <module>lab-8</module>
         <module>lab-9</module>
         <module>lab-10</module>
+        <module>lab-11</module>
+        <module>lab-11/stock-market</module>
     </modules>
 
     <properties>
