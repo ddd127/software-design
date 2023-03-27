@@ -6,7 +6,7 @@
 
     <modules>
         <module>stock-market</module>
-        <module>trader-client</module>
+        <module>user-service</module>
     </modules>
 
     <parent>

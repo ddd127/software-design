@@ -1,10 +1,9 @@
-package software.design.lab11.stock.market.model
+package software.design.lab11.user.service.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TickerCreateRq(
+data class StockSellRequest(
     val code: String,
-    val price: Long,
     val count: Long,
 )

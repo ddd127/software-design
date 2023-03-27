@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController
 import software.design.lab11.stock.market.domain.TickerRepository
 import software.design.lab11.stock.market.model.Ticker
 import software.design.lab11.stock.market.model.TickerBuyRequest
-import software.design.lab11.stock.market.model.TickerBuyResult
 import software.design.lab11.stock.market.model.TickerSellRequest
 import software.design.lab11.stock.market.web.MarketController
 
@@ -18,7 +17,12 @@ internal class MarketControllerImpl @Autowired constructor(
         return repository.getTickers()
     }
 
-    override fun buyTicker(rq: TickerBuyRequest): TickerBuyResult {
+    override fun getTicker(code: String): Ticker {
+        return repository.getTicker(code)
+            ?: throw NoSuchElementException("Not found ticker with given code")
+    }
+
+    override fun buyTicker(rq: TickerBuyRequest) {
         return repository.buyTickers(rq)
     }
 

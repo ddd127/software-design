@@ -4,6 +4,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import software.design.lab11.stock.market.model.Ticker
@@ -19,13 +20,13 @@ interface AdminController {
 
     @DeleteMapping("/admin/remove")
     @ResponseBody
-    fun removeTicker(rq: TickerRemoveRq): Ticker?
+    fun removeTicker(@RequestBody rq: TickerRemoveRq): Ticker?
 
     @PostMapping("/admin/create")
     @ResponseBody
-    fun createTicker(rq: TickerCreateRq): Ticker
+    fun createTicker(@RequestBody rq: TickerCreateRq): Ticker
 
     @PutMapping("/admin/update")
     @ResponseBody
-    fun updateTickerPrice(rq: TickerUpdateRq): Ticker?
+    fun updateTickerPrice(@RequestBody rq: TickerUpdateRq): Ticker?
 }

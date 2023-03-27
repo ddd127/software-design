@@ -2,16 +2,17 @@ package software.design.lab11.stock.market
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import software.design.lab11.stock.market.model.Ticker
 import software.design.lab11.stock.market.model.TickerBuyRequest
-import software.design.lab11.stock.market.model.TickerBuyResult
 import software.design.lab11.stock.market.model.TickerCreateRq
 import software.design.lab11.stock.market.model.TickerRemoveRq
 import software.design.lab11.stock.market.model.TickerSellRequest
 import software.design.lab11.stock.market.web.AdminController
 import software.design.lab11.stock.market.web.MarketController
+import java.lang.Exception
 import kotlin.test.assertEquals
 
 @SpringBootTest
@@ -38,13 +39,11 @@ class MarketControllerTest {
     @Test
     fun testBuy() {
         (1..5).forEach { index ->
-            val expected = TickerBuyResult(index.toLong(), PRICE)
-            val actual = marketController.buyTicker(TickerBuyRequest(CODE, index.toLong()))
-            assertEquals(expected, actual)
+            marketController.buyTicker(TickerBuyRequest(CODE, index.toLong()))
         }
-        val expected = TickerBuyResult(0L, 0L)
-        val actual = marketController.buyTicker(TickerBuyRequest(CODE, INITIAL_COUNT * 2))
-        assertEquals(expected, actual)
+        assertThrows<Exception> {
+            marketController.buyTicker(TickerBuyRequest(CODE, INITIAL_COUNT * 2))
+        }
         assertEquals(
             Ticker(CODE, PRICE, INITIAL_COUNT - (1..5).sum()),
             marketController.getTickers()[CODE],

@@ -1,13 +1,12 @@
 package software.design.lab11.stock.market.domain.impl
 
 import org.springframework.stereotype.Repository
+import software.design.lab11.stock.market.domain.TickerRepository
 import software.design.lab11.stock.market.model.Ticker
 import software.design.lab11.stock.market.model.TickerBuyRequest
-import software.design.lab11.stock.market.model.TickerBuyResult
-import software.design.lab11.stock.market.model.TickerSellRequest
-import software.design.lab11.stock.market.domain.TickerRepository
 import software.design.lab11.stock.market.model.TickerCreateRq
 import software.design.lab11.stock.market.model.TickerRemoveRq
+import software.design.lab11.stock.market.model.TickerSellRequest
 import software.design.lab11.stock.market.model.TickerUpdateRq
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
@@ -24,6 +23,8 @@ internal class TickerRepositoryImpl : TickerRepository {
 
     override fun getTickers(): Map<String, Ticker> = tickers.toMap()
 
+    override fun getTicker(code: String): Ticker? = tickers[code]
+
     override fun updateTicker(rq: TickerUpdateRq): Ticker? {
         while (true) {
             val current = tickers[rq.code] ?: return null
@@ -32,16 +33,13 @@ internal class TickerRepositoryImpl : TickerRepository {
         }
     }
 
-    override fun buyTickers(rq: TickerBuyRequest): TickerBuyResult {
-        if (rq.count <= 0) return EMPTY
-        val current = tickers[rq.code] ?: return EMPTY
+    override fun buyTickers(rq: TickerBuyRequest) {
+        val e = IllegalStateException("Failed to buy tickers")
+        if (rq.count <= 0) throw e
+        val current = tickers[rq.code] ?: throw e
         val new = current.copy(count = current.count - rq.count)
-        if (new.count < 0) return EMPTY
-        return if (tickers.replace(rq.code, current, new)) {
-            TickerBuyResult(rq.count, new.price)
-        } else {
-            EMPTY
-        }
+        if (new.count < 0) throw e
+        tickers.replace(rq.code, current, new).takeIf { it } ?: throw e
     }
 
     override fun sellTickers(rq: TickerSellRequest) {
@@ -54,9 +52,5 @@ internal class TickerRepositoryImpl : TickerRepository {
 
     override fun removeTicker(rq: TickerRemoveRq): Ticker? {
         return tickers.remove(rq.code)
-    }
-
-    companion object {
-        private val EMPTY: TickerBuyResult = TickerBuyResult(0, 0)
     }
 }
